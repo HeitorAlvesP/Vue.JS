@@ -11,7 +11,48 @@
 <body>
 
     <!--Caso aja html aqui não é nescessario usar template-->
-    <div id="app"></div>
+    <div id="app">
+        <div class="container">
+            <h1>Comentarios</h1>
+            <hr />
+            <div class="form-todo form-group">
+                <p>
+                    <input placeholder="nome" type="text" name="author"
+                    class="form-control" v-model="name" />
+                </p>
+                <!-- v-model é utilizado para vincular oq vier do input para o nosso array -->
+                <p>
+                    <textarea placeholder="Comentario" name="author"
+                    class="form-control" v-model="message"></textarea>
+                </p>
+
+                <!-- v-on identifica a ação do click do mouse-->
+                <button v-on:click="addComment" type="submit" class="btn btn-primary">Comentar</button>
+
+            </div>
+            <p></p>
+
+            <!--v-for="comment" in comments, dessa forma você declara a variavel--> 
+            <!--comment é apenas uma variavel para instancear o array comments-->
+            <div class="list-group" v-for="(comment, index) in comments"> 
+
+                <div class="list-group-item">
+
+                    <!--Para devolver um valor coloque {{*VALOR}}-->
+                    <span class="comment__author">Autor: <strong>{{ comment.name }}</strong></span>
+                    <p>{{ comment.message }}</p>
+
+                    <div>
+                        <!-- A função prevent é usada para impedir que a tag <a> faça a sua ação padrão -->
+                        <a href="#" title="Excluir" 
+                        v-on:click.prevent="dltComment(index)">Excluir</a>
+                    </div>
+                </div>
+                <p></p>
+            </div>
+            <hr />
+         </div>
+    </div>
 
     <!-- Link de importação para a versão de desenvolvimento -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -22,51 +63,6 @@
         new Vue({ 
             /*EL -> controle o elemento com o ID app*/
             el: '#app',
-
-            /*TEMPLATE -> usado para definir o HTML que será renderizado*/
-            template: /* html */ `  
-                <div class="container">
-                    <h1>Comentarios</h1>
-                    <hr />
-                    <div class="form-todo form-group">
-                        <p>
-                            <input placeholder="nome" type="text" name="author"
-                            class="form-control" v-model="name" />
-                        </p>
-                        <!-- v-model é utilizado para vincular oq vier do input para o nosso array -->
-                        <p>
-                            <textarea placeholder="Comentario" name="author"
-                            class="form-control" v-model="message"></textarea>
-                        </p>
-
-                        <!-- v-on identifica a ação do click do mouse-->
-                        <button v-on:click="addComment" type="submit" class="btn btn-primary">Comentar</button>
-
-                    </div>
-                    <p></p>
-
-                    <!--v-for="comment" in comments, dessa forma você declara a variavel--> 
-                    <!--comment é apenas uma variavel para instancear o array comments-->
-                    <div class="list-group" v-for="(comment, index) in comments"> 
-
-                        <div class="list-group-item">
-
-                            <!--Para devolver um valor coloque {{*VALOR}}-->
-                            <span class="comment__author">Autor: <strong>{{ comment.name }}</strong></span>
-                            <p>{{ comment.message }}</p>
-
-                            <div>
-                                <a href="#" title="Excluir" 
-
-                                <!--A função prevent é usada para impedir que a tag <a> faça a sua ação padrão-->
-                                v-on:click.prevent="dltComment(index)">Excluir</a>
-                            </div>
-                        </div>
-                        <p></p>
-                    </div>
-                    <hr />
-                 </div>
-                `,
             
             /*função que retorna objeto*/
             data() {
@@ -113,7 +109,15 @@
                         text: `Comentario foi excluido`,
                         icon: 'info',
                     })
+                },
+
+                watch: {
+                    comments(val){
+                        console.log('val', val)
+                    }
                 }
+
+                
 
             }
         })
