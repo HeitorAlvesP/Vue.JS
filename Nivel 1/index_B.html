@@ -47,7 +47,7 @@
 
                     <!--v-for="comment" in comments, dessa forma você declara a variavel--> 
                     <!--comment é apenas uma variavel para instancear o array comments-->
-                    <div class="list-group" v-for="comment in comments"> 
+                    <div class="list-group" v-for="(comment, index) in comments"> 
 
                         <div class="list-group-item">
 
@@ -56,9 +56,11 @@
                             <p>{{ comment.message }}</p>
 
                             <div>
-                                <a href="#" title="Excluir">Excluir</a>
+                                <a href="#" title="Excluir" 
+                                v-on:click="dltComment(index)">Excluir</a>
                             </div>
                         </div>
+                        <p></p>
                     </div>
                     <hr />
                  </div>
@@ -68,12 +70,7 @@
             data() {
                 return{
                     /*Com esse array eu posso utilizar ele no template*/
-                    comments: [
-                        {
-                            name: 'Ayrton',
-                            message: 'Lorem ipsum'
-                        }
-                    ],
+                    comments: [],
                     name: '',
                     message: ''
                 }
@@ -81,14 +78,42 @@
 
             /* Aqui será armazenado todos os metedos/funçõe */
             methods: {
+
                 addComment(){
+                    if(this.name == "" || this.message == ""){
+                        Swal.fire({
+                            title: 'Campos vazios!',
+                            text: `Os campos devem ser preenchidos`,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }else{
+                        this.comments.push({
+                            name: this.name,
+                            message: this.message
+                        });
+                        Swal.fire({
+                            title: 'Sucesso!',
+                            text: `Comentario de ${this.name} foi adicionado`,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });                        
+
+                        this.name = '';
+                        this.message = '';
+                    };
+                },
+
+                dltComment(index) {
+                    let index_num = index
+                    this.comments.splice(index, 1);
                     Swal.fire({
-                        title: 'Sucesso!',
-                        text: `Comentario de ${this.name} foi adicionado`,
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    });
+                        title: 'Excluido!',
+                        text: `Comentario foi excluido`,
+                        icon: 'info',
+                    })
                 }
+
             }
         })
     </script>
