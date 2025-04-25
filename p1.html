@@ -15,6 +15,7 @@
 
     <!-- Link de importação para a versão de desenvolvimento -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         /*declara o Vue*/
@@ -30,14 +31,16 @@
                     <div class="form-todo form-group">
                         <p>
                             <input placeholder="nome" type="text" name="author"
-                            class="form-control" />
+                            class="form-control" v-model="name" />
                         </p>
+                        <!-- v-model é utilizado para vincular oq vier do input para o nosso array -->
                         <p>
                             <textarea placeholder="Comentario" name="author"
-                            class="form-control"></textarea>
+                            class="form-control" v-model="message"></textarea>
                         </p>
 
-                        <button type="submit" class="btn btn-primary">Comentar</button>
+                        <!-- v-on identifica a ação do click do mouse-->
+                        <button v-on:click="addComment" type="submit" class="btn btn-primary">Comentar</button>
 
                     </div>
                     <p></p>
@@ -67,10 +70,24 @@
                     /*Com esse array eu posso utilizar ele no template*/
                     comments: [
                         {
-                            name: 'Ayrton 2',
-                            message: 'Lorem ipsum 2'
+                            name: 'Ayrton',
+                            message: 'Lorem ipsum'
                         }
-                    ]
+                    ],
+                    name: '',
+                    message: ''
+                }
+            },
+
+            /* Aqui será armazenado todos os metedos/funçõe */
+            methods: {
+                addComment(){
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: `Comentario de ${this.name} foi adicionado`,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
                 }
             }
         })
