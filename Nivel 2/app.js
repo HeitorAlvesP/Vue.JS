@@ -1,5 +1,7 @@
+//cira o vue.js
 const { createApp } = Vue;
 
+//Defini os dados usados no template
 createApp({
   data() {
     return {
@@ -8,7 +10,7 @@ createApp({
       horaTarefa: '',
       diaSemana: '',
       statusTarefa: '',
-      tarefas: JSON.parse(localStorage.getItem('tarefas')) || []
+      tarefas: JSON.parse(localStorage.getItem('tarefas')) || [] //se já houver tarefas salvas no navegador ele carrega
     };
   },
   methods: {
@@ -61,4 +63,5 @@ createApp({
       }
     }
   }
+//monta o app na div com tal id
 }).mount('#app');
